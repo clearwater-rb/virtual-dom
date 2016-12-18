@@ -47,6 +47,10 @@ function h(tagName, properties, children) {
         props.value !== undefined &&
         !isHook(props.value)
     ) {
+        if(typeof props.value === 'number') {
+            props.value = String(props.value);
+        }
+
         if (props.value !== null && typeof props.value !== 'string') {
             throw UnsupportedValueType({
                 expected: 'String',
