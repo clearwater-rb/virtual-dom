@@ -31,7 +31,6 @@ function createElement(vnode, opts) {
         doc.createElementNS(vnode.namespace, vnode.tagName)
 
     var props = vnode.properties
-    applyProperties(node, props)
 
     var children = vnode.children
 
@@ -41,6 +40,8 @@ function createElement(vnode, opts) {
             node.appendChild(childNode)
         }
     }
+
+    applyProperties(node, props)
 
     return node
 }
