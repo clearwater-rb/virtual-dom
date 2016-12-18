@@ -127,13 +127,13 @@ function UnexpectedVirtualElement(data) {
     var err = new Error();
 
     err.type = 'virtual-hyperscript.unexpected.virtual-element';
-    err.message = 'Unexpected virtual child passed to h().\n' +
-        'Expected a VNode / Vthunk / VWidget / string but:\n' +
+    err.message = 'Unexpected virtual DOM node passed in.\n' +
+        'Expected a VNode, VText, String, Number, Clearwater::Component (or other renderable), or nil but:\n' +
         'got:\n' +
         errorString(data.foreignObject) +
         '.\n' +
         'The parent vnode is:\n' +
-        errorString(data.parentVnode)
+        errorString(data.parentVnode) +
         '\n' +
         'Suggested fix: change your `h(..., [ ... ])` callsite.';
     err.foreignObject = data.foreignObject;
@@ -153,9 +153,7 @@ function UnsupportedValueType(data) {
         errorString(data.received) +
         '.\n' +
         'The vnode is:\n' +
-        errorString(data.Vnode)
-        '\n' +
-        'Suggested fix: Cast the value passed to h() to a string using String(value).';
+        errorString(data.Vnode);
     err.Vnode = data.Vnode;
 
     return err;
@@ -163,7 +161,11 @@ function UnsupportedValueType(data) {
 
 function errorString(obj) {
     try {
-        return JSON.stringify(obj, null, '    ');
+        if(obj.$$class) {
+          return obj.$inspect();
+        } else {
+          return JSON.stringify(obj, null, '    ');
+        }
     } catch (e) {
         return String(obj);
     }

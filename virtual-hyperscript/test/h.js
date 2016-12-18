@@ -137,10 +137,10 @@ test("h with foreign object", function (assert) {
     }
 
     assert.ok(errorSingleChild);
-    assert.ok(/Unexpected virtual child/.test(errorSingleChild.message))
+    assert.ok(/Unexpected virtual DOM node/.test(errorSingleChild.message))
 
     assert.ok(errorChildren);
-    assert.ok(/Unexpected virtual child/.test(errorChildren.message))
+    assert.ok(/Unexpected virtual DOM node/.test(errorChildren.message))
 
     assert.end()
 })
